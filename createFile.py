@@ -48,5 +48,6 @@ if __name__ == "__main__":
         f.write(getFileFormatTemplate(fileName))
         f.close()
 
-    # open file on mac
-    subprocess.call(['open', fileName])
+    # open file on computer with 'code' command
+    # subprocess.call(['open', fileName]) # on mac
+    subprocess.call(['code-oss', fileName]) # on solus
