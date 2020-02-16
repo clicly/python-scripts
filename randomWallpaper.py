@@ -9,7 +9,7 @@ from secrets import randbelow
 path = os.path.expanduser("~") + "/Desktop/Workspace/Wallpaper"
 # Should the commands run repeatedly
 runRepeatedly = True
-# Repeat seconds
+# Seconds between command execution
 secondsBetweenRuns = 10.0
 #####################################
 
