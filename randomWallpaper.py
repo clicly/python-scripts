@@ -10,7 +10,7 @@ path = os.path.expanduser("~") + "/Desktop/Workspace/Wallpaper"
 # Should the commands run repeatedly
 runRepeatedly = True
 # Seconds between command execution
-secondsBetweenRuns = 10.0
+secondsBetweenRuns = 30.0
 #####################################
 
 def showRandomPicture(pictureArray):
@@ -36,9 +36,13 @@ if __name__ == "__main__":
     # Get all files from specified directory as array
     pictureArray = glob.glob("*")
 
-    starttime = time.time()
-    while runRepeatedly:
-        showRandomPicture(pictureArray)
-        print(time.time())
-        time.sleep(secondsBetweenRuns - ((time.time() - starttime) % secondsBetweenRuns))
+    if runRepeatedly:
+        starttime = time.time()
+        while True:
+            showRandomPicture(pictureArray) 
+            time.sleep(secondsBetweenRuns - ((time.time() - starttime) % secondsBetweenRuns))
+            print("changed wallpaper randomly after " + str("%.3f" % (time.time() - starttime)) + "s")
+    else:
+        showRandomPicture(pictureArray) 
+
 
