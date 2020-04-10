@@ -20,7 +20,7 @@ def createNewFileName():
 
     # format day or month if <10
     if (day < 10):
-        month = '0' + str(month)
+        day = '0' + str(day)
 
     if (month < 10):
         month = '0' + str(month)

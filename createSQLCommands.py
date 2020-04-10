@@ -1,6 +1,5 @@
 import pandas as csv
 
-
 class Bcolors:
 HEADER = '\033[95m'
 OKBLUE = '\033[94m'
@@ -11,16 +10,13 @@ ENDC = '\033[0m'
 BOLD = '\033[1m'
 UNDERLINE = '\033[4m'
 
-
 class Import:
 ICD = 1
 OPS = 2
 
-
 class Titel:
 DESCR_NAME = 1
 DB_NAME = 2
-
 
 def get_parentid(konto, category):
 if category == Import.ICD:
