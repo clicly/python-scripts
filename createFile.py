@@ -5,49 +5,48 @@ import subprocess
 #####################################
 # Path to save files
 path = os.path.expanduser("~") + "/Downloads/"
-# file extension
-extension = ".md"
 # filename beginning
 fileNameStart = "notes"
+# file extension
+fileExtension = ".md"
 #####################################
 
-def createNewFileName():
-    # Create new Date
+def create_new_filename():
     date = datetime.datetime.now()
-    day = date.day
-    month = date.month
+    day = format_number(date.day)
+    month = format_number(date.month)
     year = date.year
 
-    # format day or month if <10
-    if (day < 10):
-        day = '0' + str(day)
+    return f'{fileNameStart}_{year}_{month}_{day}{fileExtension}'
 
-    if (month < 10):
-        month = '0' + str(month)
+def get_file_format_template(file_name):
+    return f"""# {file_name} \n 
+        ## Whats your goal today? \n
+        # * [ ] \n
+        ## Write the main points here: \n
+        # * [ ] \n"""
 
-    # Return file name
-    return fileNameStart + "_" + str(year) + "_" + str(month) + "_" + str(day) + extension
+def format_number(number):
+    if number < 10:
+        return f'0{number}'
+    return number
 
-def getFileFormatTemplate(fileName):
-    return "# " + fileName + "\n" + "## What's your goal today?" + " \n" + "* [ ]" + " \n" + "## Write the main points here:" + " \n"+ "* [ ]" + " \n"
-
-if __name__ == "__main__":
-    
-    # Go to folder which should be the parent of the to creating files
+if __name__ == "__main__": 
+    # Go to folder where you want to save the file
     os.chdir(path)
 
     # Print directory to confirm folder path
-    # print(os.getcwd())
+    print(os.getcwd())
 
-    # create file name
-    fileName = createNewFileName()
+    # Create file name
+    fileName = create_new_filename()
 
     # Create new file
     if not os.path.exists(fileName):
         f = open(fileName, "w")
-        f.write(getFileFormatTemplate(fileName))
+        f.write(get_file_format_template(fileName))
         f.close()
 
-    # open file on computer with 'code' command
+    # Open file in vscode/codium with 'code' command
     # subprocess.call(['open', fileName]) # on mac
     subprocess.call(['code-oss', fileName]) # on solus

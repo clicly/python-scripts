@@ -38,9 +38,6 @@ def createNewFileName():
     # Return file name
     return fileNameStart + "_" + str(year) + "_" + str(month) + "_" + str(day) + "_" + str(hour) + "_" + str(minute) + "_" + str(second) + extension
 
-def getFileFormatTemplate(fileName):
-    return "# " + fileName + "\n" + "## What's your goal today?" + " \n" + "* [ ]" + " \n" + "## Write the main points here:" + " \n"+ "* [ ]" + " \n"
-
 if __name__ == "__main__":
     
     txt = input("Want to select the area by yourself? (Y/y/yes): ")
