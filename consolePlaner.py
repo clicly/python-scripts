@@ -1,5 +1,6 @@
 import os
 import sys
+import re
 
 #####################################
 # Path to save files
@@ -11,6 +12,12 @@ fileExtension = ".txt"
 # file
 file = f'{path}{fileNameStart}{fileExtension}'
 #####################################
+
+# ------------------------------------------------
+# Regular Expressions
+
+regexObject = re.compile(r'^\w+')
+
 
 # ------------------------------------------------
 # Characters
@@ -65,8 +72,9 @@ def show_menu_options():
     print('4: Create new planned task')
     print(f'5: Mark a planned tasks as {create_color_string(Bcolors.OKGREEN, Bcolors.ENDC, "DONE")}')
     print(f'6: Mark a planned tasks as {create_color_string(Bcolors.FAIL, Bcolors.ENDC, "TODO")}')
-    print('7: Delete old planned task')
-    print('8: Exit application.')
+    print(f'7: Mark a planned tasks as {create_color_string(Bcolors.OKBLUE, Bcolors.ENDC, "WAIT")}')
+    print('8: Delete old planned task')
+    print('9: Exit application.')
     print('--------------------------------------')
 
 def read_from_file():
@@ -82,6 +90,8 @@ def read_from_file():
                 print(f'{i}: {create_color_string(Bcolors.FAIL, Bcolors.ENDC, line)}', end='')
             elif 'DONE' in line:
                 print(f'{i}: {create_color_string(Bcolors.OKGREEN, Bcolors.ENDC, line)}', end='')
+            elif 'WAIT' in line:
+                print(f'{i}: {create_color_string(Bcolors.OKBLUE, Bcolors.ENDC, line)}', end='')
     print('--------------------------------------')
 
 def append_to_file():
@@ -103,7 +113,7 @@ def mark_as_done():
 
     for index, line in enumerate(lines):
         if index == value:
-            lines[index] = line.replace('TODO', 'DONE')
+            lines[index] = line.replace(regexObject.search(line).group(), 'DONE')
 
     f = open(file, "w")
     for line in lines:
@@ -113,7 +123,7 @@ def mark_as_done():
     print('--------------------------------------')
 
 def mark_as_todo():
-    print(f'Which task to mark as {create_color_string(Bcolors.OKGREEN, Bcolors.ENDC, "DONE")}?')
+    print(f'Which task to mark as {create_color_string(Bcolors.FAIL, Bcolors.ENDC, "TODO")}?')
     value = ask_user_number_input()
 
     f = open(file, "r")
@@ -122,7 +132,26 @@ def mark_as_todo():
 
     for index, line in enumerate(lines):
         if index == value:
-            lines[index] = line.replace('DONE', 'TODO')
+            lines[index] = line.replace(regexObject.search(line).group(), 'TODO')
+
+    f = open(file, "w")
+    for line in lines:
+        f.write(line)
+    f.close()
+
+    print('--------------------------------------')
+
+def mark_as_wait():
+    print(f'Which task to mark as {create_color_string(Bcolors.OKBLUE, Bcolors.ENDC, "WAIT")}?')
+    value = ask_user_number_input()
+
+    f = open(file, "r")
+    lines = f.readlines()
+    f.close()
+
+    for index, line in enumerate(lines):
+        if index == value:
+            lines[index] = line.replace(regexObject.search(line).group(), 'WAIT')
 
     f = open(file, "w")
     for line in lines:
@@ -175,9 +204,11 @@ if __name__ == "__main__":
             mark_as_done()
         elif number == 6: # MARK AS TODO
             mark_as_todo()
-        elif number == 7: # DELETE TASK
+        elif number == 7: # MARK AS WAIT
+            mark_as_wait()
+        elif number == 8: # DELETE TASK
             delete_from_file()    
-        elif number == 8:
+        elif number == 9:
             exit()
 
     
