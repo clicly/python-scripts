@@ -16,8 +16,6 @@ monthly_rate = yearly_rate / months_of_the_year
 file_extension = '.xlsx'
 file = export_file_name + file_extension
 
-# -----------------------------------------------------------------
-
 def create_doc_data(wb_row_header, wb_row_data):
     doc_data = []
 

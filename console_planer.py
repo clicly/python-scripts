@@ -18,7 +18,6 @@ file = f'{path}{fileNameStart}{fileExtension}'
 
 regexObject = re.compile(r'^\w+')
 
-
 # ------------------------------------------------
 # Characters
 
@@ -176,10 +175,7 @@ def delete_from_file():
         f.write(line)
     f.close()
 
-    print('--------------------------------------')
-    
-# ------------------------------------------------
-# App    
+    print('--------------------------------------') 
 
 if __name__ == "__main__":
     # create a file for saving tasks
