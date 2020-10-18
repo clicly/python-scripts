@@ -1,29 +1,36 @@
-import openpyxl
+import openpyxl, os
 
-# -------------------------
 # VARIABLES
 yearly_rate = 0.03
-payment_begin = 170_000 # amount of money to be payed 
+payment_begin = 150_000 # amount of money to be payed in general
 payment_rate = 1_500 # amount of money to be payed per month
-years = 20 # limit you want to save
-net_worth = 0 # your current savings
-file_name = 'investment_calculation'
-# -------------------------
+years = 20 # limited years you want to save
+net_worth = 60000 # your current savings
+export_file_name = 'investment_calculation' # name of the exported file
+output_directory = os.path.expanduser("~") + "/Downloads/" # directory of the exported file
+
 # CONSTANTS
 index_row = 1
 months_of_the_year = 12
 monthly_rate = yearly_rate / months_of_the_year
 file_extension = '.xlsx'
-file = file_name + file_extension
-# -------------------------
+file = export_file_name + file_extension
 
-def create_header():
+# -----------------------------------------------------------------
+
+def create_doc_data(wb_row_header, wb_row_data):
+    doc_data = []
+
+    doc_data.append(wb_row_header)
+    for row in wb_row_data:
+        doc_data.append(row)
+
+    return doc_data
+
+def create_wb_header():
     return ['Laufzeit (in Monaten)', 'Restkapital', 'Tilgung', 'Tilgung kumuliert','Zins', 'Zins kumuliert']
 
-def create_mock_data():
-    return [[1, 148000, 1.1, 375, 1.1, 375, 1], [1, 148000, 1.1, 375, 1.1, 375, 1]]
-
-def create_data():
+def create_wb_data():
     global payment_begin
     global payment_rate
     global monthly_rate
@@ -59,39 +66,35 @@ def create_data():
 
     return data
 
-def create_excel():
+def get_mock_data():
+    # NOTE: Mock data was only needed for testing purpose
+    #       and will remain unused in the future
+    return [[1, 148000, 1.1, 375, 1.1, 375, 1], [1, 148000, 1.1, 375, 1.1, 375, 1]]
+
+def generate_excel_file():
     global file
+    global output_directory
     
-    # create new blank workbook
     workbook = openpyxl.Workbook()
-
-    # get blank work sheet
     sheet = workbook['Sheet']
-    
-    data = []
 
-    # fill with header
-    data.append(create_header())
-    # fill with data
-    for entry in create_data():
-        data.append(entry)
-    # insert data to excel
-    insert_excel(sheet, data)
+    wb_row_header = create_wb_header()
+    wb_row_data = create_wb_data()
+    wb_doc_data = create_doc_data(wb_row_header, wb_row_data)
+    insert_into_excel_sheet(sheet, wb_doc_data)
 
-    # save file from computers memory to hard drive
+    os.chdir(output_directory)
     workbook.save(file)
 
-def insert_excel(sheet, data):
+def insert_into_excel_sheet(sheet, data):
     global index_row
 
-    # Write values to excel file
     for row in data:
         for ndx, column in enumerate(row):
-            sheet.cell(row=index_row, column=ndx +1).value = column 
+            sheet.cell(row=index_row, column=ndx+1).value = column 
         index_row += 1
 
 if __name__ == "__main__":
-
     print('Started calculation...')
 
     # Define example house calculation
@@ -107,7 +110,6 @@ if __name__ == "__main__":
     # CHANGE SAVING RATE AFTER YEAR...
     # TODO
 
-    # Create excel file
-    create_excel()
+    generate_excel_file()
 
     print('Finished calculation...')
