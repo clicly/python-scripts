@@ -41,7 +41,7 @@ def create_wb_data():
     for month in range(1, years * months_of_the_year):
         if len(data) == 0:
             capital_remaining = payment_begin + (payment_begin * monthly_rate) - payment_rate - net_worth
-            acquittance = payment_begin - capital_remaining
+            acquittance = payment_begin - capital_remaining - net_worth
             acquittance_accumulated = acquittance
             payment_rate_local = payment_rate - acquittance
             payment_rate_local_accumulated = payment_rate_local
