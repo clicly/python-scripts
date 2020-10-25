@@ -1,13 +1,15 @@
 import openpyxl, os
 
 # VARIABLES
+# could be imported and validated via terminal or app
 yearly_rate = 0.03
 payment_begin = 150_000 # amount of money to be payed in general
-payment_rate = 1_500 # amount of money to be payed per month
 years = 20 # limited years you want to save
 net_worth = 60000 # your current savings
 export_file_name = 'investment_calculation' # name of the exported file
 output_directory = os.path.expanduser("~") + "/Downloads/" # directory of the exported file
+payment_rate = 1_500 # amount of money to be payed per month
+payment_rate_change = {} # example {10: 1700} # change after 10 months
 
 # CONSTANTS
 index_row = 1
@@ -15,6 +17,13 @@ months_of_the_year = 12
 monthly_rate = yearly_rate / months_of_the_year
 file_extension = '.xlsx'
 file = export_file_name + file_extension
+
+def update_payment_rate_change(month_number):
+    global payment_rate
+    global payment_rate_change
+
+    if month_number in payment_rate_change:
+        payment_rate = payment_rate_change[month_number]
 
 def create_doc_data(wb_row_header, wb_row_data):
     doc_data = []
@@ -39,6 +48,9 @@ def create_wb_data():
     data = []
 
     for month in range(1, years * months_of_the_year):
+        print(f'Month: {month}, payment: {payment_rate}')
+        update_payment_rate_change(month)
+
         if len(data) == 0:
             capital_remaining = payment_begin + (payment_begin * monthly_rate) - payment_rate - net_worth
             acquittance = payment_begin - capital_remaining - net_worth
@@ -94,19 +106,6 @@ def insert_into_excel_sheet(sheet, data):
 
 if __name__ == "__main__":
     print('Started calculation...')
-
-    # Define example house calculation
-    # TODO
-    # (Optional) Import house calculation variables
-    # TODO
-    # Ask user for input for each variable
-    # TODO
-    # Validate variables
-    # TODO
-    # (Optional) Save variables for later usage
-    # TODO
-    # CHANGE SAVING RATE AFTER YEAR...
-    # TODO
 
     generate_excel_file()
 
