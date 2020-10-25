@@ -5,7 +5,7 @@ import os
 path = os.path.expanduser("~") + "/Desktop/Workspace/scripts_python/test.txt"
 #####################################
 
-def executeAction(lines):
+def execute_action(lines):
     for element in lines:
         print ("Test" + element)
 
@@ -16,8 +16,8 @@ if __name__ == "__main__":
     # get list containing all lines in the file
     lines = f.readlines()
     
-    # do somethign with lines
-    executeAction(lines)
+    # do something with lines
+    execute_action(lines)
 
     # close the file after reading the lines.
     f.close()
