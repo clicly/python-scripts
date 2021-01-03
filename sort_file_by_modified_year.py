@@ -38,7 +38,7 @@ def count_files(dir):
 
 #####################################
 # directory where each picture is saved
-FILE_DIR = os.path.expanduser("~") + "/Downloads"
+FILE_DIR = os.path.expanduser("~") + "/Downloads/fotos"
 # sorting
 SORT = SortingStructure.YEARANDMONTH
 #####################################
