@@ -33,11 +33,11 @@ def clone_private_repositories_ssh(repository):
     """
     git("clone", f'{repository["ssh_url"]}')
 
-def request_api(api_url):
+def request_api(api_url, headers = None):
     """
     Creates a rest api call to parameter url with error handling
     """
-    r = requests.get(api_url)
+    r = requests.get(api_url, headers = headers)
     r.raise_for_status()
     return json.loads(r.content)
 
@@ -46,7 +46,11 @@ if __name__ == "__main__":
     os.chdir(FILE_DIR)
     
     if (ACCESS is RepoAccess.PRIVATE_SSH):
-        private_repositories = request_api(f'https://api.github.com/user/repos?access_token={ACCESS_TOKEN}')
+        # @deprecated
+        # private_repositories = request_api(f'https://api.github.com/user/repos?access_token={ACCESS_TOKEN}') 
+        # https://developer.github.com/changes/2020-02-10-deprecating-auth-through-query-param/
+
+        private_repositories = request_api('https://api.github.com/user/repos', {'Authorization': f'token {ACCESS_TOKEN}'})
         for repository in private_repositories:
             clone_private_repositories_ssh(repository)
     else:
