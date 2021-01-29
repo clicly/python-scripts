@@ -20,7 +20,7 @@ class PostSearch:
 
 def get_posts(subreddit, search):
     """
-    Get prepared post data from reddit api.
+    Get prepared subreddit data from reddit api.
     """
     url = f'https://www.reddit.com/r/{subreddit}{search}'
     result = request_api(url,  headers = {'User-agent': generate_random_str(random_str_length)}) # non-default user agent

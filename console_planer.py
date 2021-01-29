@@ -13,18 +13,8 @@ fileExtension = ".txt"
 file = f'{path}{fileNameStart}{fileExtension}'
 #####################################
 
-# ------------------------------------------------
-# Regular Expressions
-
 regexObject = re.compile(r'^\w+')
-
-# ------------------------------------------------
-# Characters
-
 NEWLINE = '\n'
-
-# ------------------------------------------------
-# Helper classes
 
 class Bcolors:
     HEADER = '\033[95m'
@@ -36,34 +26,42 @@ class Bcolors:
     BOLD = '\033[1m'
     UNDERLINE = '\033[4m'
 
-# ------------------------------------------------
-# Helper functions
-
 def ask_user_number_input():
+    """
+    Asks the user for a numerical input.
+    """
     try:
         return int(input())
     except ValueError:
         print('Please use an integer value as input!')
 
 def ask_user_string_input():
+    """
+    Asks the user for a string input.
+    """
     try:
         return str(input())
     except ValueError:
         print('Please use a string value as input!')
 
 def create_color_string(color_of_text, color_after_text, text):
+    """
+    Creates a colorful output string with color specification before and after the string.
+    """
     return f'{color_of_text}{text}{color_after_text}'
     
 def create_text_file():
-    # Create new file if not already existing
+    """
+    Create new file if not already existing.
+    """
     if not os.path.exists(file):
         f = open(file, "a")
         f.close()
 
-# ------------------------------------------------
-# Options
-
 def show_menu_options():
+    """
+    Shows the available options that could be executed in the console planer.
+    """
     print(f'{create_color_string(Bcolors.OKBLUE, Bcolors.ENDC, "Option Menu...")}')
     print('1: Show options')
     print('2: Clear console')
@@ -74,9 +72,12 @@ def show_menu_options():
     print(f'7: Mark a planned tasks as {create_color_string(Bcolors.OKBLUE, Bcolors.ENDC, "WAIT")}')
     print('8: Delete old planned task')
     print('9: Exit application.')
-    print('--------------------------------------')
+    print_line()
 
 def read_from_file():
+    """
+    Prints all created tasks to the console.
+    """
     print(f'{create_color_string(Bcolors.OKBLUE, Bcolors.ENDC, "View tasks...")}')
     f = open(file, "r")
     lines = f.readlines()
@@ -91,18 +92,26 @@ def read_from_file():
                 print(f'{i}: {create_color_string(Bcolors.OKGREEN, Bcolors.ENDC, line)}', end='')
             elif 'WAIT' in line:
                 print(f'{i}: {create_color_string(Bcolors.OKBLUE, Bcolors.ENDC, line)}', end='')
-    print('--------------------------------------')
+    
+    print_line()
 
 def append_to_file():
+    """
+    Add a new task to the task file.
+    """
     print(f'{create_color_string(Bcolors.OKBLUE, Bcolors.ENDC, "Add a new task...")}')
     value = ask_user_string_input()
     f = open(file, "a")
     if value != '':
         f.write(f'TODO | {value}{NEWLINE}')
     f.close()
-    print('--------------------------------------')
+
+    print_line()
 
 def mark_as_done():
+    """
+    Option to mark a task that is successfully completed as done.
+    """
     print(f'Which task to mark as {create_color_string(Bcolors.OKGREEN, Bcolors.ENDC, "DONE")}?')
     value = ask_user_number_input()
 
@@ -119,9 +128,12 @@ def mark_as_done():
         f.write(line)
     f.close()
 
-    print('--------------------------------------')
+    print_line()
 
 def mark_as_todo():
+    """
+    Option to mark a task that is not successfully completed as todo.
+    """
     print(f'Which task to mark as {create_color_string(Bcolors.FAIL, Bcolors.ENDC, "TODO")}?')
     value = ask_user_number_input()
 
@@ -138,9 +150,12 @@ def mark_as_todo():
         f.write(line)
     f.close()
 
-    print('--------------------------------------')
+    print_line()
 
-def mark_as_wait():
+def mark_as_wait():    
+    """
+    Option to mark a task that is currently blocked as wait.
+    """
     print(f'Which task to mark as {create_color_string(Bcolors.OKBLUE, Bcolors.ENDC, "WAIT")}?')
     value = ask_user_number_input()
 
@@ -157,9 +172,12 @@ def mark_as_wait():
         f.write(line)
     f.close()
 
-    print('--------------------------------------')
+    print_line()
 
 def delete_from_file():
+    """
+    Option to delete a created task.
+    """
     print(f'{create_color_string(Bcolors.OKBLUE, Bcolors.ENDC, "Delete a task...")}')
 
     value = ask_user_number_input()
@@ -175,13 +193,15 @@ def delete_from_file():
         f.write(line)
     f.close()
 
+    print_line()
+
+def print_line():
     print('--------------------------------------') 
 
 if __name__ == "__main__":
     # create a file for saving tasks
     create_text_file()
 
-    # app iteration
     show_menu_options()
     while True:
         print(f'{create_color_string(Bcolors.BOLD, Bcolors.ENDC, "Enter your option")}', end=': ')
@@ -192,7 +212,7 @@ if __name__ == "__main__":
         elif number == 2: # CONSOLE CLEAR
             os.system('clear')
             show_menu_options()
-        elif number == 3: # VIEW PLANNED TAKS
+        elif number == 3: # VIEW PLANNED TASKS
             read_from_file()
         elif number == 4: # ADD TASK
             append_to_file()
