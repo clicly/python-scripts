@@ -35,7 +35,7 @@ def compare_rgb_value(a, b):
     """
     return a[0] == b[0] and a[1] == b[1] and a[2] == b[2]
 
-def detect_color(rgb, filename):
+def is_rgb_value_in_image(rgb, filename):
     """
     Detects the specified rgb value within the pixels of an image.
     """
@@ -129,7 +129,7 @@ def run_v3():
         pyautogui.click()
         sleep(2)
         pyautogui.screenshot(temFileName)
-        if detect_color(failed_red_rgb, temFileName):
+        if is_rgb_value_in_image(failed_red_rgb, temFileName):
             print_error()
             print(f'Karma tests rerunned: {rerun_count} times.')
             break
