@@ -25,7 +25,7 @@ def request_api(api_url):
     r.raise_for_status()
     return json.loads(r.content)
 
-def request_dog_picture_api():
+def retrieve_dog_picture_data():
     """
     Return dog pictures url as data from 'thedogapi.com'.
     """
@@ -33,14 +33,14 @@ def request_dog_picture_api():
     # more information about the dog available in json object
     return json_object[0]["url"]
 
-def request_affirmation_api():
+def retrieve_affirmation_data():
     """
     Return affirmation json as data from 'affirmations.dev'.
     """
     json_object = request_api("https://www.affirmations.dev/")
     return json_object["affirmation"]
 
-def request_dadjoke_api():
+def retrieve_dadjoke_data():
     """
     Return attachments json as data from 'icanhazdadjoke.com'.
     """
@@ -55,7 +55,7 @@ def get_chat_id(token):
     url = f'https://api.telegram.org/bot{token}/getUpdates'
     print(requests.post(url).json())
 
-def send_msg_via_telegram(chat_id, token, msg):
+def send_data_via_telegram(chat_id, token, msg):
     """
     Send a message to the specified telegram chat with a authorization token.
     https://medium.com/@wk0/send-and-receive-messages-with-the-telegram-api-17de9102ab78
@@ -64,7 +64,7 @@ def send_msg_via_telegram(chat_id, token, msg):
     data = {'chat_id': {chat_id}, 'text': msg}
     requests.post(url, data).json()
 
-def send_msg_via_email(user_mail_address, user_password, recipients_emails, mail_body):
+def send_data_via_email(user_mail_address, user_password, recipients_emails, mail_body):
     """
     Send message to email address with authorization parameters for your email provider.
     """
@@ -82,20 +82,20 @@ def send_msg_via_email(user_mail_address, user_password, recipients_emails, mail
     finally:
         connection.quit()
 
-def choose_api(api_request):
+def retrieve_data_from_api(api_request):
     """
     Choose api request based on the input.
     """
     if (api_request == ApiRequest.DOGS):
-        return request_dog_picture_api()
+        return retrieve_dog_picture_data()
     elif (api_request == ApiRequest.AFFIRMATION):
-        return request_affirmation_api()
+        return retrieve_affirmation_data()
     elif (api_request == ApiRequest.DADJOKE):
-        return request_dadjoke_api()
+        return retrieve_dadjoke_data()
     raise NotImplementedError()
 
 if __name__ == "__main__":  
-    msg = choose_api(ApiRequest.DOGS)
+    data = retrieve_data_from_api(ApiRequest.DOGS)
 
-    send_msg_via_telegram(CHAT_ID, TOKEN, msg)
-    # send_msg_via_email(USER_MAIL_ADDRESS, USER_PASSWORD, RECIPIENTS_EMAILS, msg)
+    send_data_via_telegram(CHAT_ID, TOKEN, data)
+    # send_data_via_email(USER_MAIL_ADDRESS, USER_PASSWORD, RECIPIENTS_EMAILS, msg)
